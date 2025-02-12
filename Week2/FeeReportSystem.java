@@ -6,203 +6,127 @@ public class FeeReportSystem {
 	private static final String USER = "root";
 	private static final String PASSWORD = "root";
 	private static Connection con;
+	private static Scanner scanner = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		try {
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
-			Scanner scanner = new Scanner(System.in);
-
 			while (true) {
-				System.out.println("\nWelcome to Fee Report System");
-				System.out.println("1. Admin Login");
-				System.out.println("2. Exit");
+				System.out.println("\n1. Admin Login\n2. Exit");
 				System.out.print("Enter choice: ");
 				int choice = scanner.nextInt();
-				scanner.nextLine();
-
-				if (choice == 1) {
-					System.out.print("Enter username: ");
-					String username = scanner.next();
-					System.out.print("Enter password: ");
-					String password = scanner.next();
-
-					if (validateAdmin(username, password)) {
-						System.out.println("Admin Login Successful!");
-						adminMenu(scanner);
-					} else {
-						System.out.println("Invalid credentials!");
-					}
-				} else if (choice == 2) {
-					System.out.println("Exiting...");
+				if (choice == 1)
+					performAdminLogin();
+				else
 					break;
-				} else {
-					System.out.println("Invalid choice. Try again.");
-				}
 			}
-			scanner.close();
 			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private static boolean validateAdmin(String username, String password) throws SQLException {
-		String query = "SELECT * FROM admin WHERE username = ? AND password = ?";
-		PreparedStatement ps = con.prepareStatement(query);
+	private static void performAdminLogin() throws SQLException {
+		System.out.print("Username: ");
+		String username = scanner.next();
+		System.out.print("Password: ");
+		String password = scanner.next();
+		if (checkAdminCredentials(username, password))
+			displayAdminMenu();
+		else
+			System.out.println("Invalid credentials!");
+	}
+
+	private static boolean checkAdminCredentials(String username, String password) throws SQLException {
+		PreparedStatement ps = con.prepareStatement("SELECT * FROM admin WHERE username=? AND password=?");
 		ps.setString(1, username);
 		ps.setString(2, password);
-		ResultSet rs = ps.executeQuery();
-		return rs.next();
+		return ps.executeQuery().next();
 	}
 
-	private static void adminMenu(Scanner scanner) throws SQLException {
+	private static void displayAdminMenu() throws SQLException {
 		while (true) {
-			System.out.println("\nAdmin Menu");
-			System.out.println("1. Add Accountant");
-			System.out.println("2. View Accountants");
-			System.out.println("3. Manage Students");
-			System.out.println("4. Logout");
+			System.out.println("\n1. Add Accountant\n2. View Accountants\n3. Manage Students\n4. Logout");
 			System.out.print("Enter choice: ");
-			int choice = scanner.nextInt();
-			scanner.nextLine();
-
-			if (choice == 1) {
-				addAccountant(scanner);
-			} else if (choice == 2) {
-				viewAccountants();
-			} else if (choice == 3) {
-				manageStudents(scanner);
-			} else if (choice == 4) {
-				System.out.println("Logging out...");
-				break;
-			} else {
-				System.out.println("Invalid choice! Try again.");
+			switch (scanner.nextInt()) {
+			case 1 -> createAccountant();
+			case 2 -> displayTable("accountant");
+			case 3 -> handleStudentManagement();
+			case 4 -> {
+				return;
+			}
+			default -> System.out.println("Invalid choice!");
 			}
 		}
 	}
 
-	private static void addAccountant(Scanner scanner) throws SQLException {
-		System.out.print("Enter Name: ");
-		String name = scanner.nextLine();
-		System.out.print("Enter Email: ");
+	private static void createAccountant() throws SQLException {
+		System.out.print("Name: ");
+		String name = scanner.next();
+		System.out.print("Email: ");
 		String email = scanner.next();
-		System.out.print("Enter Phone: ");
+		System.out.print("Phone: ");
 		String phone = scanner.next();
-		System.out.print("Enter Password: ");
+		System.out.print("Password: ");
 		String password = scanner.next();
-
-		String query = "INSERT INTO accountant(name, email, phone, password) VALUES(?, ?, ?, ?)";
-		PreparedStatement ps = con.prepareStatement(query);
-		ps.setString(1, name);
-		ps.setString(2, email);
-		ps.setString(3, phone);
-		ps.setString(4, password);
-
-		int result = ps.executeUpdate();
-		if (result > 0) {
-			System.out.println("Accountant added successfully!");
-		} else {
-			System.out.println("Error adding accountant.");
-		}
+		executeDatabaseUpdate("INSERT INTO accountant(name,email,phone,password) VALUES(?,?,?,?)", name, email, phone,
+				password);
 	}
 
-	private static void viewAccountants() throws SQLException {
-		String query = "SELECT * FROM accountant";
-		Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery(query);
-
-		System.out.println("\nList of Accountants:");
-		while (rs.next()) {
-			System.out.println("ID: " + rs.getInt("id") + ", Name: " + rs.getString("name") + ", Email: "
-					+ rs.getString("email") + ", Phone: " + rs.getString("phone"));
-		}
-	}
-
-	private static void manageStudents(Scanner scanner) throws SQLException {
+	private static void handleStudentManagement() throws SQLException {
 		while (true) {
-			System.out.println("\nStudent Management");
-			System.out.println("1. Add Student");
-			System.out.println("2. View Students");
-			System.out.println("3. Check Due Fees");
-			System.out.println("4. Back to Admin Menu");
+			System.out.println("\n1. Add Student\n2. View Students\n3. Check Due Fees\n4. Back");
 			System.out.print("Enter choice: ");
-			int choice = scanner.nextInt();
-			scanner.nextLine();
-
-			if (choice == 1) {
-				addStudent(scanner);
-			} else if (choice == 2) {
-				viewStudents();
-			} else if (choice == 3) {
-				checkDueFees();
-			} else if (choice == 4) {
-				break;
-			} else {
-				System.out.println("Invalid choice! Try again.");
+			switch (scanner.nextInt()) {
+			case 1 -> createStudent();
+			case 2 -> displayTable("student");
+			case 3 -> showDueFees();
+			case 4 -> {
+				return;
+			}
+			default -> System.out.println("Invalid choice!");
 			}
 		}
 	}
 
-	private static void addStudent(Scanner scanner) throws SQLException {
-		System.out.print("Enter Name: ");
-		String name = scanner.nextLine();
-		System.out.print("Enter Email: ");
+	private static void createStudent() throws SQLException {
+		System.out.print("Name: ");
+		String name = scanner.next();
+		System.out.print("Email: ");
 		String email = scanner.next();
-		System.out.print("Enter Course: ");
+		System.out.print("Course: ");
 		String course = scanner.next();
-		System.out.print("Enter Total Fee: ");
+		System.out.print("Total Fee: ");
 		double fee = scanner.nextDouble();
-		System.out.print("Enter Paid Fee: ");
+		System.out.print("Paid Fee: ");
 		double paid = scanner.nextDouble();
-		double due = fee - paid;
-		scanner.nextLine();
-		System.out.print("Enter Address: ");
-		String address = scanner.nextLine();
-		System.out.print("Enter Phone: ");
+		System.out.print("Address: ");
+		String address = scanner.next();
+		System.out.print("Phone: ");
 		String phone = scanner.next();
+		executeDatabaseUpdate(
+				"INSERT INTO student(name,email,course,fee,paid,due,address,phone) VALUES(?,?,?,?,?,?,?,?)", name,
+				email, course, fee, paid, (fee - paid), address, phone);
+	}
 
-		String query = "INSERT INTO student(name, email, course, fee, paid, due, address, phone) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+	private static void displayTable(String tableName) throws SQLException {
+		ResultSet rs = con.createStatement().executeQuery("SELECT * FROM " + tableName);
+		while (rs.next()) {
+			System.out.println(rs.getInt(1) + " | " + rs.getString(2) + " | " + rs.getString(3));
+		}
+	}
+
+	private static void showDueFees() throws SQLException {
+		ResultSet rs = con.createStatement().executeQuery("SELECT name, due FROM student WHERE due > 0");
+		while (rs.next()) {
+			System.out.println("Name: " + rs.getString(1) + " | Due: " + rs.getDouble(2));
+		}
+	}
+
+	private static void executeDatabaseUpdate(String query, Object... params) throws SQLException {
 		PreparedStatement ps = con.prepareStatement(query);
-		ps.setString(1, name);
-		ps.setString(2, email);
-		ps.setString(3, course);
-		ps.setDouble(4, fee);
-		ps.setDouble(5, paid);
-		ps.setDouble(6, due);
-		ps.setString(7, address);
-		ps.setString(8, phone);
-
-		int result = ps.executeUpdate();
-		if (result > 0) {
-			System.out.println("Student added successfully!");
-		} else {
-			System.out.println("Error adding student.");
-		}
-	}
-
-	private static void viewStudents() throws SQLException {
-		String query = "SELECT * FROM student";
-		Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery(query);
-
-		System.out.println("\nList of Students:");
-		while (rs.next()) {
-			System.out.println("ID: " + rs.getInt("id") + ", Name: " + rs.getString("name") + ", Email: "
-					+ rs.getString("email") + ", Course: " + rs.getString("course") + ", Fee: " + rs.getDouble("fee")
-					+ ", Paid: " + rs.getDouble("paid") + ", Due: " + rs.getDouble("due") + ", Address: "
-					+ rs.getString("address") + ", Phone: " + rs.getString("phone"));
-		}
-	}
-
-	private static void checkDueFees() throws SQLException {
-		String query = "SELECT * FROM student WHERE due > 0";
-		Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery(query);
-
-		System.out.println("\nStudents with Pending Fees:");
-		while (rs.next()) {
-			System.out.println(
-					"ID: " + rs.getInt("id") + ", Name: " + rs.getString("name") + ", Due Fee: " + rs.getDouble("due"));
-		}
+		for (int i = 0; i < params.length; i++)
+			ps.setObject(i + 1, params[i]);
+		System.out.println(ps.executeUpdate() > 0 ? "Operation successful!" : "Error!");
 	}
 }
