@@ -1,6 +1,5 @@
 INSERT INTO admin (username, password) VALUES
-('superadmin', 'superpass123'),
-('manager', 'managerpass456');
+('panimalar','pani27');
 
 
 INSERT INTO accountant (name, email, phone, password) VALUES
