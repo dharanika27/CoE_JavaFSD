@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Routine - Fitness Planner</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="fit">
+            <a href="index.html">FITNESS ROUTINE PLANNER</a>
+        </div>
+        <a href="contact.html">CONTACT</a>
+        <a href="track.html">PROGRESS TRACKER</a>
+        <a href="routine.html">MY ROUTINE</a>
+        <a href="create.html">CREATE ROUTINE</a>
+        <a href="index.html">HOME</a>
+    </div>
+
+    <main>
+        <h1>Create Your Fitness Routine</h1>
+        <p>Customize your workout plan according to your fitness goals.</p>
+
+        <form id="routineForm">
+            <label for="goal">Select Your Fitness Goal:</label>
+            <select id="goal" required>
+                <option value="">-- Choose a Goal --</option>
+                <option value="Weight Loss">Weight Loss</option>
+                <option value="Muscle Gain">Muscle Gain</option>
+                <option value="Endurance">Endurance</option>
+                <option value="Flexibility">Flexibility</option>
+            </select>
+
+            <label for="exerciseType">Preferred Workout Type:</label>
+            <select id="exerciseType" required>
+                <option value="">-- Choose a Workout Type --</option>
+                <option value="Cardio">Cardio</option>
+                <option value="Strength Training">Strength Training</option>
+                <option value="Yoga">Yoga</option>
+                <option value="HIIT">HIIT (High Intensity)</option>
+            </select>
+
+            <label for="duration">Workout Duration (minutes):</label>
+            <input type="number" id="duration" min="10" max="120" required>
+
+            <label for="days">How Many Days Per Week?</label>
+            <input type="number" id="days" min="1" max="7" required>
+
+            <button type="submit">Save Routine</button>
+        </form>
+    </main>
+
+    <script>
+        document.getElementById("routineForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            let routine = {
+                goal: document.getElementById("goal").value,
+                workout: document.getElementById("exerciseType").value,
+                duration: document.getElementById("duration").value,
+                days: document.getElementById("days").value
+            };
+
+            localStorage.setItem("userRoutine", JSON.stringify(routine));
+            alert("Routine saved successfully!");
+            window.location.href = "routine.html"; // Redirect to 'My Routine' page
+        });
+    </script>
+
+</body>
+
+</html>

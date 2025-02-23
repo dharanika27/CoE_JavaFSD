@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Tracker - Fitness Planner</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js for Graph -->
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="fit">
+            <a href="index.html">FITNESS ROUTINE PLANNER</a>
+        </div>
+        <a href="contact.html">CONTACT</a>
+        <a href="track.html">PROGRESS TRACKER</a>
+        <a href="routine.html">MY ROUTINE</a>
+        <a href="create.html">CREATE ROUTINE</a>
+        <a href="index.html">HOME</a>
+    </div>
+
+    <main>
+        <h1>Track Your Progress</h1>
+        <p>Monitor your fitness journey and set new goals.</p>
+
+        <h2>Log Your Workout</h2>
+        <form id="progressForm">
+            <label for="date">Select Date:</label>
+            <input type="date" id="date" required>
+
+            <label for="completedDuration">Workout Duration (minutes):</label>
+            <input type="number" id="completedDuration" min="10" max="120" required>
+
+            <button type="submit">Save Progress</button>
+        </form>
+
+        <h2>Workout Progress</h2>
+        <canvas id="progressChart"></canvas> <!-- Chart for visualizing progress -->
+
+        <h2>Workout History</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Duration (min)</th>
+                </tr>
+            </thead>
+            <tbody id="progressHistory"></tbody>
+        </table>
+
+        <button id="clearProgress">Clear Progress</button>
+    </main>
+
+    <script>
+        document.getElementById("progressForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            let date = document.getElementById("date").value;
+            let duration = document.getElementById("completedDuration").value;
+
+            let progress = JSON.parse(localStorage.getItem("progress")) || [];
+            progress.push({ date, duration });
+
+            localStorage.setItem("progress", JSON.stringify(progress));
+            alert("Progress saved!");
+            loadProgress();
+        });
+
+        function loadProgress() {
+            let progress = JSON.parse(localStorage.getItem("progress")) || [];
+            let historyTable = document.getElementById("progressHistory");
+            historyTable.innerHTML = "";
+
+            progress.forEach((entry) => {
+                let row = `<tr><td>${entry.date}</td><td>${entry.duration}</td></tr>`;
+                historyTable.innerHTML += row;
+            });
+
+            updateChart(progress);
+        }
+
+        function updateChart(progress) {
+            let ctx = document.getElementById("progressChart").getContext("2d");
+            let dates = progress.map(entry => entry.date);
+            let durations = progress.map(entry => entry.duration);
+
+            new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: "Workout Duration (min)",
+                        data: durations,
+                        borderColor: "blue",
+                        borderWidth: 2,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        }
+
+        document.getElementById("clearProgress").addEventListener("click", function () {
+            localStorage.removeItem("progress");
+            alert("Progress cleared!");
+            loadProgress();
+        });
+
+        loadProgress();
+    </script>
+
+</body>
+
+</html>

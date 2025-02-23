@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Routine - Fitness Planner</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="fit">
+            <a href="index.html">FITNESS ROUTINE PLANNER</a>
+        </div>
+        <a href="contact.html">CONTACT</a>
+        <a href="track.html">PROGRESS TRACKER</a>
+        <a href="routine.html">MY ROUTINE</a>
+        <a href="create.html">CREATE ROUTINE</a>
+        <a href="index.html">HOME</a>
+    </div>
+
+    <main>
+        <h1>My Routine</h1>
+        <p>View and update your personal fitness routine here.</p>
+
+        <div id="routineContainer">
+            <h2>Your Current Routine:</h2>
+            <p id="noRoutineMessage">You haven't created a routine yet.</p>
+            <div id="routineDetails" style="display: none;">
+                <p><strong>Goal:</strong> <span id="goalDisplay"></span></p>
+                <p><strong>Workout Type:</strong> <span id="workoutDisplay"></span></p>
+                <p><strong>Duration:</strong> <span id="durationDisplay"></span> minutes</p>
+                <p><strong>Days Per Week:</strong> <span id="daysDisplay"></span></p>
+
+                <h3>Weekly Workout Plan:</h3>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Workout</th>
+                        </tr>
+                    </thead>
+                    <tbody id="weeklyPlan"></tbody>
+                </table>
+
+                <button id="editRoutine">Edit Routine</button>
+                <button id="deleteRoutine">Delete Routine</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function loadRoutine() {
+            let routine = JSON.parse(localStorage.getItem("userRoutine"));
+
+            if (routine) {
+                document.getElementById("goalDisplay").textContent = routine.goal;
+                document.getElementById("workoutDisplay").textContent = routine.workout;
+                document.getElementById("durationDisplay").textContent = routine.duration;
+                document.getElementById("daysDisplay").textContent = routine.days;
+
+                document.getElementById("noRoutineMessage").style.display = "none";
+                document.getElementById("routineDetails").style.display = "block";
+
+                generateWeeklyPlan(routine.workout, routine.days);
+            }
+        }
+
+        function generateWeeklyPlan(workout, days) {
+            let weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+            let planHTML = "";
+
+            for (let i = 0; i < days; i++) {
+                planHTML += `<tr><td>${weekDays[i]}</td><td>${workout}</td></tr>`;
+            }
+
+            document.getElementById("weeklyPlan").innerHTML = planHTML;
+        }
+
+        document.getElementById("editRoutine").addEventListener("click", function () {
+            window.location.href = "create.html";
+        });
+
+        document.getElementById("deleteRoutine").addEventListener("click", function () {
+            localStorage.removeItem("userRoutine");
+            alert("Routine deleted!");
+            location.reload();
+        });
+
+        loadRoutine();
+    </script>
+
+</body>
+
+</html>
