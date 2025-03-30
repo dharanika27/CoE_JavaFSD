@@ -1,10 +1,22 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'ipl-spa';
+  constructor(private router: Router) {}
+
+  // Check if user is logged in based on localStorage
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('user');
+  }
+
+  // Logout function
+  logout() {
+    localStorage.removeItem('user'); // Remove user from storage
+    this.router.navigate(['/login']); // Redirect to login page
+  }
 }

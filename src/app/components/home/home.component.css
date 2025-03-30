@@ -1,0 +1,22 @@
+.team-logo {
+    width: 100px;
+    height: 100px;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .card {
+    border-radius: 15px;
+    text-align: center;
+  }
+  
+  .card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: auto;
+  }
+  

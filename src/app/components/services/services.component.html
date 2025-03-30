@@ -1,0 +1,12 @@
+<div class="container mt-4">
+  <h2>IPL Services</h2>
+  <p>Services Component Loaded</p> <!-- Debugging line -->
+  <div class="row">
+    <div class="col-md-4" *ngFor="let service of servicesList">
+      <div class="card p-3" (click)="navigateToDetails(service.name)" style="cursor: pointer;">
+        <h4>{{ service.name }}</h4>
+        <p>{{ service.description }}</p>
+      </div>
+    </div>
+  </div>
+</div>

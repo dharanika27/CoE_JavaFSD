@@ -1,0 +1,32 @@
+<div class="container text-center mt-5">
+  <h2>{{ serviceDetails?.title }}</h2>
+  <p>{{ serviceDetails?.description }}</p>
+
+  <!-- Display Details Based on Selected Service -->
+  <div *ngIf="serviceDetails?.details">
+    <table class="table table-bordered mt-3">
+      <thead>
+        <tr>
+          <th *ngIf="serviceId === 'player-statistics'">Player</th>
+          <th *ngIf="serviceId === 'team-analysis'">Team</th>
+          <th *ngIf="serviceId === 'live-match-scores'">Match</th>
+          <th>Stats</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let detail of serviceDetails.details">
+          <td *ngIf="serviceId === 'player-statistics'">{{ detail.name }}</td>
+          <td *ngIf="serviceId === 'team-analysis'">{{ detail.name }}</td>
+          <td *ngIf="serviceId === 'live-match-scores'">{{ detail.match }}</td>
+          <td>
+            <div *ngIf="serviceId === 'player-statistics'">{{ detail.stat }} | {{ detail.avg }}</div>
+            <div *ngIf="serviceId === 'team-analysis'">{{ detail.stat }} | Strength: {{ detail.strength }}</div>
+            <div *ngIf="serviceId === 'live-match-scores'">{{ detail.score }}</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <button class="btn btn-primary mt-3" (click)="goBack()">Back to Services</button>
+</div>
