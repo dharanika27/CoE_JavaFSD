@@ -1,0 +1,11 @@
+{
+  "emotion_tracker": "Emotion Tracker",
+  "track_emotions": "Track Your Emotions",
+  "cycle_emotion": "Cycle Emotion",
+  "reset_emotion": "Reset Emotion",
+  "add_custom_emotion": "Add Custom Emotion",
+  "switch_to_spanish": "🇪🇸 Switch to Spanish",
+  "switch_to_english": "🇺🇸 Switch to English",
+  "your_emotion_is": "Your emotion is",
+  "no_emotion_selected": "No emotion selected!"
+}

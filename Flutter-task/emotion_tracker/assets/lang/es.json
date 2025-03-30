@@ -1,0 +1,11 @@
+{
+  "emotion_tracker": "Rastreador de emociones",
+  "track_emotions": "Rastrea tus emociones",
+  "cycle_emotion": "Cambia emoción",
+  "reset_emotion": "Restablecer emoción",
+  "add_custom_emotion": "Agregar emoción personalizada",
+  "switch_to_spanish": "🇪🇸 Cambiar a español",
+  "switch_to_english": "🇺🇸 Cambiar a inglés",
+  "your_emotion_is": "Tu emoción es",
+  "no_emotion_selected": "¡Ninguna emoción seleccionada!"
+}
