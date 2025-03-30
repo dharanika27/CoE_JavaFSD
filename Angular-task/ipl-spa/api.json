@@ -1,0 +1,22 @@
+{
+    "teams": [
+        [
+            {
+              "name": "Mumbai Indians",
+              "captain": "Hardik Pandya",
+              "image": "mumbai-indians.png"
+            },
+            {
+              "name": "RCB",
+              "captain": "Patidar",
+              "image": "rcb.png"
+            },
+            {
+              "name": "KKR",
+              "captain": "Rahane",
+              "image": "kkr.png"
+            }
+          ]
+          
+    ]
+}
