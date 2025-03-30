@@ -1,0 +1,24 @@
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">IPL Team Offices</h2>
+    <div class="row">
+      <div class="col-md-4" *ngFor="let contact of contacts">
+        <div class="card shadow-sm p-3 mb-4 bg-white rounded" [ngClass]="getTeamClass(contact.name)">
+          <div class="row g-0">
+            <div class="col-md-4 d-flex align-items-center">
+              <img [src]="contact.logo" class="img-fluid" alt="{{ contact.name }}">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">{{ contact.name }}</h5>
+                <p class="card-text"><strong>Email:</strong> {{ contact.email }}</p>
+                <p class="card-text"><strong>Mobile:</strong> {{ contact.mobile }}</p>
+                <p class="card-text"><strong>Address:</strong> {{ contact.address }}</p>
+                <p class="card-text"><strong>City:</strong> {{ contact.city }}</p>
+                <p class="card-text"><strong>Pin:</strong> {{ contact.pin }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
