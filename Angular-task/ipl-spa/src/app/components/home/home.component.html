@@ -1,0 +1,49 @@
+<div class="container mt-4">
+  <h2 class="text-center">IPL Teams</h2>
+
+  <!-- Display teams -->
+  <div class="row">
+    <div class="col-md-4" *ngFor="let team of iplTeams">
+      <div class="card shadow-lg p-3 mb-4 bg-white rounded">
+        <img [src]="team.logo" class="card-img-top team-logo" alt="{{ team.name }}">
+        <div class="card-body text-center">
+          <h5 class="card-title font-weight-bold">
+            {{ team.name | titlecase }} <!-- Title Case Pipe -->
+          </h5>
+          <p class="card-text">{{ team.description | lowercase }}</p> <!-- Lowercase Pipe -->
+          <!-- <p class="card-text"><strong>Titles Won:</strong> {{ team.titles | number }}</p> Number Pipe -->
+          <button (click)="teamDetails(team)" class="btn btn-primary">View Details</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success message -->
+  <div *ngIf="successMessage" class="alert alert-success mt-3">
+    {{ successMessage | uppercase }} <!-- Uppercase Pipe -->
+  </div>
+
+  <!-- Team Registration Form -->
+  <div class="mt-5">
+    <h2>Register a New IPL Team</h2>
+    <form [formGroup]="teamForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="teamName" class="form-label">Team Name</label>
+        <input type="text" id="teamName" class="form-control" formControlName="teamName">
+      </div>
+      <div class="mb-3">
+        <label for="captain" class="form-label">Captain</label>
+        <input type="text" id="captain" class="form-control" formControlName="captain">
+      </div>
+      <div class="mb-3">
+        <label for="coach" class="form-label">Coach</label>
+        <input type="text" id="coach" class="form-control" formControlName="coach">
+      </div>
+      <div class="mb-3">
+        <label for="logo" class="form-label">Team Logo (URL)</label>
+        <input type="text" id="logo" class="form-control" formControlName="logo">
+      </div>
+      <button type="submit" class="btn btn-success" [disabled]="teamForm.invalid">Submit</button>
+    </form>
+  </div>
+</div>
