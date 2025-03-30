@@ -1,0 +1,19 @@
+<h2 class="text-center">IPL Match Schedule</h2>
+<table class="table table-striped table-bordered mt-3">
+  <thead class="table-dark">
+    <tr>
+      <th>Date</th>
+      <th>Team 1</th>
+      <th>Team 2</th>
+      <th>Venue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let match of matches">
+      <td>{{ match.date }}</td>
+      <td>{{ match.team1 }}</td>
+      <td>{{ match.team2 }}</td>
+      <td>{{ match.venue }}</td>
+    </tr>
+  </tbody>
+</table>
