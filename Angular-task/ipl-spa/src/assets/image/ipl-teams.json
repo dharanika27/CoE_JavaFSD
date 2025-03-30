@@ -1,0 +1,74 @@
+[
+  {
+      "id":"1",
+      "name": "Mumbai Indians",
+      "logo": "assets/images/mumbai-indians.png",
+      "captain": "Hardik Pandya",
+      "coach": "Mark Boucher",
+      "homeGround": "Wankhede Stadium",
+      "titles": 5,
+      "description": "One of the most successful teams in IPL history.",
+      "color": "#005DA0"
+  },
+  {
+    "id":"2",
+    "name": "Chennai Super Kings",
+    "logo": "assets/images/csk-logo.png",
+    "captain": "Ruturaj Gaikwad",
+    "coach": "Stephen Fleming",
+    "homeGround": "MA Chidambaram Stadium",
+    "titles": 5,
+    "description": "A dominant force in IPL, known for their consistency.",
+    "color": "#FFD700"
+    
+   
+  },
+  {
+    "id":"3",
+    "name": "Royal Challengers Bangalore",
+    "logo": "assets/images/rcb-logo.png",
+    "captain": "Patindhar",
+    "coach": "Sanjay Bangar",
+    "homeGround": "M. Chinnaswamy Stadium",
+    "titles": 0,
+    "description": "A star-studded team still chasing its first IPL title.",
+    "color": "#D20000"
+    
+    
+  },
+  {
+      "id":"4",
+      "name": "Kolkata Knight Riders",
+      "logo": "assets/images/kkr-logo.png",
+      "captain": "Ajinke Rahane",
+      "coach": "Chandrakant Pandit",
+      "homeGround": "Eden Gardens",
+      "titles": 2,
+      "description": "Two-time IPL champions known for their aggressive gameplay.",
+      "color": "#4B0082"   
+    
+  },
+  {
+    "id":"5",
+    "name": "Delhi Capitals",
+    "logo": "assets/images/dc-logo.png",
+    "captain": "Rishab Pant",
+    "coach": "Ricky Ponting",
+    "homeGround": "Arun Jaitley Stadium",
+    "titles": 0,
+    "description": "A promising team with a young and talented squad.",
+    "color": "#004C99"
+   
+  },
+  {
+    "id":"6",
+    "name": "Sunrisers Hyderabad",
+    "logo": "assets/images/srh-logo.png",
+    "captain": "Pat Cummins",
+    "coach": "Daniel Vettori",
+    "homeGround": "Rajiv Gandhi International Stadium",
+    "titles": 1,
+    "description": "Winners of IPL 2016, known for their strong bowling attack.",
+    "color": "#E65100"
+  }
+]
